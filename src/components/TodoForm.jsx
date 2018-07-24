@@ -19,10 +19,13 @@ export class TodoForm extends React.Component {
   }
 
   handleSubmit(event) {
+    const todosUpdater = this.props.todosUpdater;
     const title = this.state.title;
     const text = this.state.text;
-    // API リクエスト後に一覧を更新するためブラウザをリロードする（超邪道）
-    create(title, text).then(() => window.history.go());
+    create(title, text).then(() => {
+      todosUpdater();
+      this.setState({ title: '', text: '' });
+    });
     // おまじない（イベントの伝搬を止めるため）
     event.preventDefault();
   }

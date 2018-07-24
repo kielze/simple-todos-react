@@ -1,21 +1,11 @@
 import React from 'react';
-import { index } from '../api';
 import { TodoItem } from './TodoItem';
 
 export class TodoList extends React.Component {
-  constructor(props) {
-    super(props)
-      this.state = {
-        todos: [],
-    }
-  }
-
-  componentDidMount() {
-    // Todos を取得して todos ステートにセットする
-    index().then(response => this.setState({ todos: response }));
-  }
 
   render() {
+    const todosUpdater = this.props.todosUpdater;
+    const todos = this.props.todos;
     return (
       <div>
         <h3>Todo List</h3>
@@ -28,13 +18,14 @@ export class TodoList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.todos.map(todo => (
+            {todos.map(todo => (
               <TodoItem
                 key={todo.id}
                 title={todo.title}
                 text={todo.text}
                 createdAt={todo.created_at}
                 id={todo.id}
+                todosUpdater={todosUpdater}
               />
             ))}
           </tbody>
